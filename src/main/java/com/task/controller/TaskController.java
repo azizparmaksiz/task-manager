@@ -2,8 +2,6 @@ package com.task.controller;
 
 import com.task.dto.TaskDto;
 import com.task.service.TaskService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/task")
 public class TaskController {
-    Logger logger= LoggerFactory.getLogger(TaskController.class);
+
 
     @Autowired
     private TaskService taskService;
@@ -39,9 +37,9 @@ public class TaskController {
         return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
     }
 
-    @PostMapping(value = "/postPone")
+    @PostMapping(value = "/postpone")
     @ResponseBody
-    public ResponseEntity<Void> postPoneTask(@RequestBody  TaskDto taskDto) {
+    public ResponseEntity<Void> postponeTask(@RequestBody  TaskDto taskDto) {
 
         taskService.postponeTask(taskDto.getId(),taskDto.getDueDate());
         return new ResponseEntity<Void>(HttpStatus.ACCEPTED);

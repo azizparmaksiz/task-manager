@@ -19,7 +19,7 @@ import java.sql.SQLException;
 @ControllerAdvice
 @RestController
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-Logger logger= LoggerFactory.getLogger(GlobalExceptionHandler.class);
+private static Logger logger= LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
 	@ExceptionHandler(value = {ResourceNotFoundException.class })
 	@ResponseBody

@@ -22,9 +22,6 @@ public class WebsocketConfig implements WebSocketConfigurer {
     @Value("${websocket.maxSessionIdleTimeout}")
     private long maxSessionIdleTimeout;
 
-    @Value("${websocket.maxfixedWebsocketConfigThreadPool}")
-    private int maxfixedThreadPool;
-
 
     @Bean
     public ServletServerContainerFactoryBean createWebSocketContainer() {
@@ -48,7 +45,7 @@ public class WebsocketConfig implements WebSocketConfigurer {
 
     @Bean
     public TaskWebSocketTransactionsHandler taskWebSocketTransactionsHandler() {
-        return new TaskWebSocketTransactionsHandler(maxfixedThreadPool);
+        return new TaskWebSocketTransactionsHandler();
     }
 
 

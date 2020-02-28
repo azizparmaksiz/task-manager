@@ -8,7 +8,7 @@ import com.task.repository.TaskRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
+//import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -29,10 +29,12 @@ public class TaskServiceImp implements TaskService {
     @Override
     public List<TaskDto> getAllTasks() {
 
-        Sort sort = Sort.by(
-                Sort.Order.asc("priority"),
-                Sort.Order.desc("dueDate"));
-        List<Task> taskList=taskRepository.findAll(sort);
+        //Sort sort = Sort.by(
+        //      Sort.Order.asc("priority"),
+        //    Sort.Order.desc("dueDate"));
+        //List<Task> taskList=taskRepository.findAll(sort);
+
+        List<Task> taskList = taskRepository.getCustomShortedTask();
 
         Type listType = new TypeToken<List<TaskDto>>() {
         }.getType();
@@ -49,34 +51,36 @@ public class TaskServiceImp implements TaskService {
 
     @Override
     public void updateTask(TaskDto taskDto) {
-        Optional task=taskRepository.findById(taskDto.getId());
-        if(task.isPresent()){
-            Task t =modelMapper.map(taskDto,Task.class);
+        Optional task = taskRepository.findById(taskDto.getId());
+        if (task.isPresent()) {
+            Task t = modelMapper.map(taskDto, Task.class);
             t.setUpdatedAt(new Date());
             taskRepository.save(t);
-        }else {
+        } else {
             throw new ResourceNotFoundException(new CommonExceptionMessage("TASK_NOT_FOUND"));
         }
     }
+
     @Override
     public int createTask(TaskDto taskDto) {
 
-            Task t =modelMapper.map(taskDto,Task.class);
-            t.setUpdatedAt(new Date());
-          return   taskRepository.save(t).getId();
+        Task t = modelMapper.map(taskDto, Task.class);
+        t.setUpdatedAt(new Date());
+        return taskRepository.save(t).getId();
 
     }
+
     @Override
     public void postponeTask(int taskId, Date toDate) {
 
-        Optional task=taskRepository.findById(taskId);
+        Optional task = taskRepository.findById(taskId);
 
-        if(task.isPresent()){
-            Task t= (Task) task.get();
+        if (task.isPresent()) {
+            Task t = (Task) task.get();
             t.setDueDate(toDate);
             t.setUpdatedAt(new Date());
             taskRepository.save(t);
-        }else {
+        } else {
             throw new ResourceNotFoundException(new CommonExceptionMessage("TASK_NOT_FOUND"));
         }
 
